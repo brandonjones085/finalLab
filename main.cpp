@@ -1,21 +1,97 @@
-// main.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*******************************************************************************
+** Author:       Brandon Jones
+** Date:         06/03/2019
+** Description:  The main file where the program is run.
+*******************************************************************************/
 
-#include "pch.h"
+
+
 #include <iostream>
+#include <chrono>
+
+int recursive(int); 
+void iterative(int); 
+
+using namespace std::chrono; 
+
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	int num; 
+
+	std::cout << "Please enter a number: "; 
+	std::cin >> num; 
+  
+
+	//begins run time measurement
+	auto start1 = high_resolution_clock::now(); 
+
+	//function call
+	int output = recursive(num); 
+
+	//Ends run time measurement
+	auto stop1 = high_resolution_clock::now(); 
+	
+	//Subtracts stop from start time
+	auto duration1 = duration_cast<microseconds>(stop1 - start1);
+
+
+	//begins run time measurement
+	auto start2 = high_resolution_clock::now();
+
+	//function call
+	iterative(num);
+
+	//Ends run time measurement
+	auto stop2 = high_resolution_clock::now();
+
+	//Subtracts stop from start time
+	auto duration2 = duration_cast<microseconds>(stop2 - start2);
+
+
+	//User output
+	std::cout << "Fibonaci number using recursion: " << output << std::endl; 
+	std::cout << "Duration: " << duration1.count() << std::endl; 
+	std::cout << std::endl; 
+	std::cout << "Fibonaci number using iteration " << std::endl;
+	std::cout << "Duration: " << duration2.count() << std::endl;
+	
+	
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+/*******************************************************************************
+** Description:  Takes in an int and uses recursion to find the fibonaci sequence.
+//source: https://stackoverflow.com/questions/1518726/recursive-fibonacci
+*******************************************************************************/
+
+int recursive(int i)
+{
+	if (i == 0)
+	{
+		return 0; 
+	}
+	else if (i == 1)
+	{
+		return 1; 
+	}
+	return recursive(i - 1) + recursive(i - 2); 
+}
+
+/*******************************************************************************
+** Description:  Takes in an int and uses iteration to find the fibonaci sequence.
+//source: https://www.tutorialspoint.com/cplusplus-program-to-find-fibonacci-numbers-using-iteration
+*******************************************************************************/
+
+void iterative(int n)
+{
+	int zero = 0, one = 1, two = 0; 
+	for (int i = 0; i < n; i++)
+	{
+		std::cout << zero << " "; 
+		two = zero + one; 
+		zero = one; 
+		one = two; 
+	}
+	
+}
