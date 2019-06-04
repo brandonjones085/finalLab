@@ -7,56 +7,69 @@
 
 
 #include <iostream>
-#include <chrono>
+#include <ctime>
+#include <cstdlib>
+#include <cmath>
 
+//Prototypes
 int recursive(int); 
-void iterative(int); 
+int iterative(int); 
 
-using namespace std::chrono; 
 
 
 int main()
 {
 	int num; 
 
-	std::cout << "Please enter a number: "; 
-	std::cin >> num; 
-  
 
-	//begins run time measurement
-	auto start1 = high_resolution_clock::now(); 
+	while (true)
+	{
 
-	//function call
-	int output = recursive(num); 
+		std::cout << "Please enter a number: ";
+		std::cin >> num;
 
-	//Ends run time measurement
-	auto stop1 = high_resolution_clock::now(); 
-	
-	//Subtracts stop from start time
-	auto duration1 = duration_cast<microseconds>(stop1 - start1);
+		double duration, duration1;
+		clock_t start, start1;
+
+		start = clock();
+
+		//begins run time measurement
+		start = clock();
+
+		//function call
+		int output = recursive(num);
+
+		//Ends run time measurement, Subtracts stop from start time
+		duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+
+		std::cout << std::endl << std::endl << std::endl;
+
+		//User output
+		std::cout << "Fibonaci number using recursion: "<< std::endl;
+		std::cout << "It took " << duration << " clicks " << std::endl;
+		std::cout << std::endl;
 
 
-	//begins run time measurement
-	auto start2 = high_resolution_clock::now();
-
-	//function call
-	iterative(num);
-
-	//Ends run time measurement
-	auto stop2 = high_resolution_clock::now();
-
-	//Subtracts stop from start time
-	auto duration2 = duration_cast<microseconds>(stop2 - start2);
 
 
-	//User output
-	std::cout << "Fibonaci number using recursion: " << output << std::endl; 
-	std::cout << "Duration: " << duration1.count() << std::endl; 
-	std::cout << std::endl; 
-	std::cout << "Fibonaci number using iteration " << std::endl;
-	std::cout << "Duration: " << duration2.count() << std::endl;
-	
-	
+		//begins run time measurement
+		start1 = clock();
+
+		//function call
+		iterative(num);
+
+		//Ends run time measurement, Subtracts stop from start time
+		duration1 = (clock() - start1) / (double)CLOCKS_PER_SEC;
+
+
+		std::cout << "\nFibonaci number using iteration " << std::endl;
+		std::cout << "It took " << duration1 << " clicks " << " and " << ((float)duration1 / CLOCKS_PER_SEC) << std::endl;
+
+
+	}
+
+
+
 }
 
 
@@ -64,7 +77,6 @@ int main()
 ** Description:  Takes in an int and uses recursion to find the fibonaci sequence.
 //source: https://stackoverflow.com/questions/1518726/recursive-fibonacci
 *******************************************************************************/
-
 int recursive(int i)
 {
 	if (i == 0)
@@ -75,23 +87,24 @@ int recursive(int i)
 	{
 		return 1; 
 	}
-	return recursive(i - 1) + recursive(i - 2); 
+	return (recursive(i - 1) + recursive(i - 2)); 
 }
 
 /*******************************************************************************
 ** Description:  Takes in an int and uses iteration to find the fibonaci sequence.
 //source: https://www.tutorialspoint.com/cplusplus-program-to-find-fibonacci-numbers-using-iteration
 *******************************************************************************/
-
-void iterative(int n)
+int iterative(int n)
 {
 	int zero = 0, one = 1, two = 0; 
 	for (int i = 0; i < n; i++)
 	{
-		std::cout << zero << " "; 
-		two = zero + one; 
-		zero = one; 
-		one = two; 
+		
+		zero = two; 
+		two = one; 
+		one = zero + two; 
+
 	}
 	
+	return one; 
 }
